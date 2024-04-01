@@ -9,12 +9,12 @@ FROM covidvaccinations;
 SELECT location, date, total_cases, new_cases, total_deaths, population
 FROM coviddeaths;
 
--- Total Cases Vs Total Deaths -  Percentage of people that have died from covid in the United States
+-- Total Cases Vs Total Deaths -  Percentage of people that have died from covid 
 
 SELECT location, date, total_cases, total_deaths,
 (total_deaths/total_cases)*100 as DeathPercentage
 FROM coviddeaths
-Where Location = 'United States';
+Where continent <> 'Null';
 
 -- Total Cases Vs Population - for the Percentage of the population that has gotten covid
 

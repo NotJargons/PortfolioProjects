@@ -25,7 +25,7 @@ Where continent <> 'Null'
 Order by CovidInfectionPercentage DESC; 
 
 -- Average Covid Infection Percentage accross the world
-SELECT location, AVG((total_cases/population)*100) as CovidInfectionPercentage
+SELECT location, AVG((total_cases/population)*100) as AvgCovidInfectionPercentage
 FROM coviddeaths
 Where continent <> 'Null'
 Group by location

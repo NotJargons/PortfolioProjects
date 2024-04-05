@@ -105,9 +105,9 @@ SET SoldAsVacant = CASE
 SELECT SoldAsVacant FROM nashvillehousing;
 
 -- Removing Duplicate data/cells
-SELECT * FROM nashvillehousing;
+-- I removed the duplicates using excel initially. So there are no longer duplicates in this dataset
 
--- Removing Unused Columns
+-- Removing Unused Columns 
 
 ALTER TABLE nashvillehousing
 DROP COLUMN TaxDistrict,

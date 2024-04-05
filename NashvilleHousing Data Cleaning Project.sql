@@ -21,9 +21,9 @@ select *
 from nashvillehousing
 Where PropertyAddress is null;
 
--- I observed that there 29 rows that has a null value as the property address
--- I also observed that, two roles can have the same parcelID,which means they both have similar addresses too. Only thing that differ is the UniqueID
--- So I need to say when a row has a unique ID and a Property Address, the other ParcelID is supposed to share similar address to clean the null values present
+-- I noticed that there are 29 rows with null values in the property address field and that two rows can have the same ParcelID, indicating they share similar addresses. 
+-- The only difference between them is the UniqueID. Therefore, if one row has a unique ID and a property address, 
+-- the other row with the same ParcelID should also have a similar address, which would help clean up the null values.
 
 -- Joining the table to itself
 -- If the parcelIDs are the same, but UniqueID isn't

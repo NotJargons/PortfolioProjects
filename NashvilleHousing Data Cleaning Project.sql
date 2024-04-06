@@ -104,7 +104,7 @@ GROUP BY SoldAsVacant;
 
 UPDATE nashvillehousing
 SET SoldAsVacant = CASE
-						WHEN SoldAsVacant = 'Y' THEN 'Yes'
+			WHEN SoldAsVacant = 'Y' THEN 'Yes'
                         WHEN SoldAsVacant = 'N' THEN 'No'
                         ELSE SoldAsVacant
 					END;
@@ -124,11 +124,11 @@ WITH rownumcte AS (
 SELECT UniqueID ,
 		ROW_NUMBER() OVER (
 		PARTITION BY ParcelID, 
-					 PropertySplitAddress, 
-					 SalePrice,
-					 SaleDate,
-					 LegalReference  
-					 ORDER BY UniqueID) as rownum
+			     PropertySplitAddress, 
+			     SalePrice,
+			     SaleDate,
+			     LegalReference  
+ORDER BY UniqueID) as rownum
 FROM nashvillehousing)
 
 DELETE hd

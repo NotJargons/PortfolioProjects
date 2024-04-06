@@ -1,6 +1,7 @@
 select *
 from nashvillehousing; 
 
+------------------------------------------------------------------------------------------------------------
 select saledate
 from nashvillehousing;
 
@@ -8,6 +9,8 @@ from nashvillehousing;
 
 UPDATE nashvillehousing
 SET SaleDate = STR_TO_DATE(SaleDate, '%M %e, %Y'); 
+
+------------------------------------------------------------------------------------------------------------
 
 -- Property Address
 
@@ -21,9 +24,9 @@ select *
 from nashvillehousing
 Where PropertyAddress is null;
 
--- I noticed that there are 29 rows with null values in the property address field and that two rows can have the same ParcelID, indicating they share similar addresses. 
--- The only difference between them is the UniqueID. Therefore, if one row has a unique ID and a property address, 
--- the other row with the same ParcelID should also have a similar address, which would help clean up the null values.
+-- I observed that there 29 rows that has a null value as the property address
+-- I also observed that, two roles can have the same parcelID,which means they both have similar addresses too. Only thing that differ is the UniqueID
+-- So I need to say when a row has a unique ID and a Property Address, the other ParcelID is supposed to share similar address to clean the null values present
 
 -- Joining the table to itself
 -- If the parcelIDs are the same, but UniqueID isn't
@@ -44,6 +47,8 @@ SET
 	t2.propertyaddress IS NULL
     AND t2.parcelid = t1.parcelid
     AND t1.propertyaddress is not null;
+    
+------------------------------------------------------------------------------------------------------------
     
 -- Seperating the PropertyAddress format into (Address, City)
 
@@ -85,7 +90,8 @@ UPDATE nashvillehousing
 SET OwnerSplitAddress = SUBSTRING_INDEX(OwnerAddress, ',', 1),
     OwnerSplitCity = SUBSTRING_INDEX(SUBSTRING_INDEX(OwnerAddress, ',', 2), ',', -1),
     OwnerSplitState = SUBSTRING_INDEX(OwnerAddress, ',', -1);
-
+    
+------------------------------------------------------------------------------------------------------------
 
 -- SoldAsVacant Column has issues with the values 'Yes' or 'No' but some Values are 'N' or 'Y'
 -- Making it inconsistent to use
@@ -104,14 +110,32 @@ SET SoldAsVacant = CASE
 					END;
 SELECT SoldAsVacant FROM nashvillehousing;
 
--- Removing Duplicate data/cells
--- I removed the duplicates using excel initially. So there are no longer duplicates in this dataset
-
--- Removing Unused Columns 
+----------------------------------------------------------------------------------------------------------
+-- Removing Unused Columns
 
 ALTER TABLE nashvillehousing
 DROP COLUMN TaxDistrict,
 DROP OwnerAddress,
 DROP PropertyAddress;
 
-SELECT * FROM nashvillehousing;
+
+-- Removing Duplicates
+WITH rownumcte AS (
+SELECT UniqueID ,
+		ROW_NUMBER() OVER (
+		PARTITION BY ParcelID, 
+					 PropertySplitAddress, 
+					 SalePrice,
+					 SaleDate,
+					 LegalReference  
+					 ORDER BY UniqueID) as rownum
+FROM nashvillehousing)
+
+DELETE hd
+FROM nashvillehousing as hd 
+INNER JOIN rownumcte as r 
+ON hd.UniqueID = r.UniqueID
+where rownum>1;
+
+------------------------------------------------------------------------------------------------------------
+select * from nashvillehousing;

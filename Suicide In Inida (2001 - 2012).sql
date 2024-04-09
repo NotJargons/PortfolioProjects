@@ -34,7 +34,7 @@ GROUP BY state, UnionTerritory;
 
 SELECT
 CASE
-	WHEN state IN ('Delhi', 'Puducherry','Chandigarph','Dadra & Nagar Haveli and Daman & Diu','Lakshadweep',
+    WHEN state IN ('Delhi', 'Puducherry','Chandigarph','Dadra & Nagar Haveli and Daman & Diu','Lakshadweep',
     'Andaman and Nicobar Islands','Ladakh','Lakshadweep', 'Jammu & Kashmir')
     THEN 'Union Territory'
     ELSE 'State'
@@ -44,12 +44,12 @@ CASE
     
 UPDATE indiasuicide
 SET UnionTerritory =
-					CASE 
-						WHEN state IN ('Delhi', 'Puducherry','Chandigarph','Dadra & Nagar Haveli and Daman & Diu',
-                        'Lakshadweep','Andaman and Nicobar Islands','Ladakh','Lakshadweep','Jammu & Kashmir')
-					THEN 'Yes'
-					ELSE 'No'
-                    END;
+CASE 
+    WHEN state IN ('Delhi', 'Puducherry','Chandigarph','Dadra & Nagar Haveli and Daman & Diu',
+	'Lakshadweep','Andaman and Nicobar Islands','Ladakh','Lakshadweep','Jammu & Kashmir')
+    THEN 'Yes'
+    ELSE 'No'
+END;
                     
 -- Getting all the data for the Union Territory only         
 SELECT *
